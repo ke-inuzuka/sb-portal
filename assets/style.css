@@ -109,3 +109,9 @@
   .pj-more-body{padding:2px 14px 14px}
   .pj-list li{grid-template-columns:1fr;gap:2px}
 }
+@media (max-width:440px){
+  .pj-head h3{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:1rem}
+  .pj-chat{width:42px;height:42px;min-height:0;padding:0;justify-content:center}
+  .pj-chat svg{width:20px;height:20px}
+  .pj-chat-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
