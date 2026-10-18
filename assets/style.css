@@ -8,7 +8,7 @@
 .kouki-title{color:#10233f;margin:0 0 14px;font-size:clamp(1.25rem,2.4vw,1.6rem);font-weight:950;letter-spacing:-.02em;line-height:1.3}
 .kouki-changes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .kouki-change{position:relative;display:flex;align-items:flex-start;gap:14px;background:#f4f7fb;border:1px solid #e0e6ee;border-radius:14px;padding:16px 16px 14px}
-.kouki-num{position:absolute;top:-9px;left:-6px;width:26px;height:26px;border-radius:50%;background:#ef664e;color:#fff;font-size:.85rem;font-weight:950;display:grid;place-items:center;box-shadow:0 4px 10px #ef664e55}
+.kouki-num{display:inline-block;margin:0 0 4px;padding:2px 9px;border:1.5px solid #9eb4cf;border-radius:7px;color:#153a68;background:#fff;font-size:.74rem;font-weight:900;letter-spacing:.04em;line-height:1.4}
 .kouki-icon{flex:none;width:52px;height:52px;border-radius:14px;background:#153a68;color:#fff;display:grid;place-items:center}
 .kouki-icon svg{width:28px;height:28px}
 .kouki-big{margin:2px 0 2px;color:#153a68;font-size:1.2rem;font-weight:950;line-height:1.35}
