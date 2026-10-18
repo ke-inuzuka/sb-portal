@@ -41,3 +41,10 @@
   .kouki-projects strong{font-size:1rem}
   .kouki-projects span{font-size:.9rem}
 }
+
+/* ===== 画像なしイベントカードのビジュアル ===== */
+.event-plain-visual{display:flex;align-items:center;justify-content:center;gap:16px;color:#fff;background:linear-gradient(135deg,var(--event-accent),color-mix(in srgb,var(--event-accent) 62%,#0b233e))}
+.event-plain-visual>svg{width:64px;height:64px;opacity:.95}
+.event-plain-label{display:flex;flex-direction:column;font-size:.9rem;font-weight:800;line-height:1.35;opacity:.92}
+.event-plain-label b{font-size:1.35rem;font-weight:950;opacity:1}
+@media (max-width:760px){.event-plain-visual>svg{width:54px;height:54px}.event-plain-label b{font-size:1.2rem}}
