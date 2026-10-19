@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学校へのお願い（申請）｜SB PORTAL</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+/* ===== デザイン（SB PORTALと同じ色） ===== */
+:root{
+  --navy:#153a68; --navy-dark:#0d2748; --bg:#f3f6fb; --ink:#10233f; --muted:#617087;
+  --line:#d8e1ed; --card:#fff; --soft:#e9f0f8; --blue:#2d73db; --red:#cf3f35;
+  --green:#1f9270; --orange:#ef664e; --yellow:#fff6d6;
+  --r:16px; --fs:17px;
+}
+html.big{ --fs:20px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Noto Sans JP","Yu Gothic UI","Hiragino Sans","Meiryo",system-ui,sans-serif;
+  font-size:var(--fs); line-height:1.75; color:var(--ink);
+  background:linear-gradient(#153a6808 1px,transparent 1px),linear-gradient(90deg,#153a6808 1px,transparent 1px),var(--bg);
+  background-size:32px 32px; min-height:100vh;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+
+/* ヘッダー */
+.top{position:sticky;top:0;z-index:20;background:#0d2748f5;color:#fff;backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;box-shadow:0 8px 28px #0e25432b}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.brand-sym{display:inline-grid;place-items:center;width:40px;height:40px;background:#fff;color:var(--navy);
+  border-radius:13px 13px 13px 4px;font-weight:900;font-size:.85rem;letter-spacing:-.05em}
+.brand strong{display:block;font-size:.9rem;letter-spacing:.04em;line-height:1.2}
+.brand small{display:block;font-size:.7rem;color:#bdcbe0;line-height:1.2}
+.tools{display:flex;gap:8px}
+.tool{background:#ffffff14;border:1px solid #ffffff33;color:#fff;border-radius:999px;padding:6px 12px;font-size:.8rem;white-space:nowrap}
+.tool[aria-pressed="true"]{background:#fff;color:var(--navy)}
+
+/* 進み具合 */
+.progress{max-width:760px;margin:18px auto 0;padding:0 16px}
+.steps{display:flex;gap:6px;list-style:none}
+.steps li{flex:1;height:8px;border-radius:99px;background:var(--line)}
+.steps li.is-done{background:var(--navy)}
+.steps li.is-now{background:var(--orange)}
+.step-label{display:flex;justify-content:space-between;margin-top:6px;font-size:.85rem;color:var(--muted);font-weight:700}
+
+main{max-width:760px;margin:0 auto;padding:12px 16px 140px}
+.screen{animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:1.45em;line-height:1.4;margin:14px 0 6px;letter-spacing:.02em}
+.lead{color:var(--muted);margin-bottom:18px}
+
+/* 種類カード */
+.type-grid{display:grid;gap:14px}
+.type-card{display:flex;gap:16px;align-items:center;text-align:left;width:100%;
+  background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;
+  box-shadow:0 6px 20px #153a680d;transition:.15s}
+.type-card:hover,.type-card:focus-visible{border-color:var(--blue);transform:translateY(-2px);outline:none}
+.type-icon{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:18px;font-size:2rem;background:var(--soft)}
+.type-card b{display:block;font-size:1.1em;line-height:1.4}
+.type-card span{display:block;color:var(--muted);font-size:.88em;line-height:1.6;margin-top:2px}
+.type-card .go{margin-left:auto;font-size:1.6rem;color:var(--navy)}
+
+.how{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.how h2{font-size:1em;margin-bottom:8px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;font-size:.8em;font-weight:700}
+.flow div{background:var(--soft);border-radius:12px;padding:10px 4px;line-height:1.4}
+.flow i{display:block;font-style:normal;font-size:1.5rem;margin-bottom:4px}
+
+/* 質問カード */
+.q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;box-shadow:0 4px 14px #153a6808}
+.q.err{border:2px solid var(--red);background:#fff8f7}
+.q-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.q-title{font-weight:800;font-size:1.05em;line-height:1.5}
+.badge{display:inline-block;font-size:.7em;font-weight:800;border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:2px}
+.badge.req{background:var(--orange);color:#fff}
+.badge.opt{background:var(--soft);color:var(--muted)}
+.speak{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;width:40px;height:40px;font-size:1.1rem}
+.speak.on{background:var(--navy);color:#fff}
+.hint{color:var(--muted);font-size:.9em;margin:4px 0 10px}
+.err-msg{display:none;color:var(--red);font-weight:800;font-size:.9em;margin-top:8px}
+.q.err .err-msg{display:block}
+
+input[type=text],input[type=email],input[type=number],input[type=date],textarea{
+  width:100%;border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;font-size:1em;outline:none}
+input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px #2d73db22}
+textarea{min-height:120px;resize:vertical;line-height:1.7}
+.with-suffix{display:flex;align-items:center;gap:8px}
+.with-suffix input{max-width:220px}
+.counter{text-align:right;font-size:.8em;color:var(--muted);margin-top:4px}
+.counter.ok{color:var(--green);font-weight:700}
+
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px 16px;font-weight:700;min-height:48px;line-height:1.4}
+.choice[aria-pressed="true"]{border-color:var(--navy);background:var(--navy);color:#fff}
+.choice[aria-pressed="true"]::before{content:"✓ "}
+.other-input{margin-top:10px}
+
+.ex-btn{border:none;background:none;color:var(--blue);font-weight:700;font-size:.88em;padding:4px 0;text-decoration:underline;text-underline-offset:3px}
+.example{display:none;background:var(--yellow);border-radius:12px;padding:12px 14px;margin:6px 0 10px;font-size:.9em}
+.example.show{display:block}
+.example b{display:block;margin-bottom:2px}
+.example .use{margin-top:8px;border:1px solid #d9b84f;background:#fff;border-radius:8px;padding:4px 10px;font-size:.85em;font-weight:700}
+.starters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.starter{border:1px dashed #9fb3cf;background:var(--soft);border-radius:999px;padding:4px 12px;font-size:.82em;color:var(--navy);font-weight:700}
+
+/* 内訳 */
+.items{display:grid;gap:10px}
+.item{display:grid;grid-template-columns:1fr 92px 120px 40px;gap:8px;align-items:end;background:var(--bg);border-radius:12px;padding:10px}
+.item label{font-size:.75em;color:var(--muted);font-weight:700;display:block}
+.item input{padding:10px}
+.item .del{height:46px;border:none;background:#fff;border-radius:10px;font-size:1.1rem;color:var(--red)}
+.add{margin-top:10px;border:2px dashed #9fb3cf;background:#fff;border-radius:12px;padding:10px;width:100%;font-weight:800;color:var(--navy)}
+.total{margin-top:12px;display:flex;justify-content:space-between;align-items:center;background:var(--navy);color:#fff;border-radius:12px;padding:12px 16px;font-weight:800}
+.total b{font-size:1.4em}
+
+.check{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;border:2px solid var(--line);margin-top:8px;cursor:pointer;background:#fff}
+.check input{width:26px;height:26px;flex:none;margin-top:2px;accent-color:var(--navy)}
+.check.on{border-color:var(--green);background:#f1faf6}
+
+.voice-tip{display:flex;gap:10px;align-items:center;background:#eef6ff;border:1px solid #cfe2fb;border-radius:12px;padding:10px 14px;font-size:.88em;margin-bottom:14px}
+
+/* 確認 */
+.review{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.review h3{display:flex;justify-content:space-between;align-items:center;background:var(--soft);padding:10px 16px;font-size:.95em}
+.review h3 button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:2px 12px;font-size:.85em;font-weight:700;color:var(--navy)}
+.review dl{padding:6px 16px 12px}
+.review dt{font-size:.8em;color:var(--muted);font-weight:700;margin-top:10px}
+.review dd{white-space:pre-wrap;word-break:break-word}
+
+/* 下のボタン */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:15;background:#ffffffee;backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.nav-in{max-width:760px;margin:0 auto;display:flex;gap:10px}
+.btn{border:none;border-radius:14px;padding:14px 18px;font-weight:800;font-size:1.05em;min-height:56px}
+.btn.back{background:var(--soft);color:var(--navy);flex:0 0 auto}
+.btn.next{background:var(--navy);color:#fff;flex:1;box-shadow:0 6px 18px #153a6840}
+.btn.send{background:var(--orange);color:#fff;flex:1;box-shadow:0 6px 18px #ef664e55}
+.btn:disabled{opacity:.6}
+
+.done{text-align:center;padding:30px 10px}
+.done .big-icon{font-size:4rem}
+.done ol{text-align:left;max-width:460px;margin:18px auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 16px 40px}
+.done li{margin:6px 0}
+.link-btn{display:inline-block;margin-top:8px;text-decoration:none;background:var(--soft);color:var(--navy);font-weight:800;border-radius:12px;padding:12px 18px}
+.alert{background:#fff4f2;border:2px solid var(--red);border-radius:var(--r);padding:16px;margin-top:14px}
+.alert .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.saved{font-size:.8em;color:var(--muted);text-align:center;margin-top:6px}
+.hp{position:absolute;left:-9999px}
+
+@media (max-width:560px){
+  .brand small{display:none}
+  .item{grid-template-columns:1fr 1fr;}
+  .item .name{grid-column:1/-1}
+  .item .del{grid-column:2;justify-self:end;width:46px}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .type-icon{width:54px;height:54px;font-size:1.7rem}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../">
+    <span class="brand-sym">SB</span>
+    <span><strong>SB PORTAL</strong><small>学校へのお願い（申請）</small></span>
+  </a>
+  <div class="tools">
+    <button class="tool" id="bigBtn" aria-pressed="false" type="button">文字を大きく</button>
+  </div>
+</header>
+
+<div class="progress" id="progress" hidden>
+  <ol class="steps" id="steps"></ol>
+  <div class="step-label"><span id="stepName"></span><span id="stepCount"></span></div>
+</div>
+
+<main id="main" aria-live="polite"></main>
+
+<nav class="nav" id="nav" hidden>
+  <div class="nav-in">
+    <button class="btn back" id="backBtn" type="button">← もどる</button>
+    <button class="btn next" id="nextBtn" type="button">つぎへ →</button>
+  </div>
+  <p class="saved" id="savedNote">書いた内容は、このスマホ・パソコンに自動で保存されます</p>
+</nav>
+
+<script>
+/* =========================================================
+   ★ 設定（先生用）
+   Apps Scriptを「ウェブアプリ」として公開したときのURLを
+   下の '' の中に貼り付けてください。
+   ========================================================= */
+const GAS_URL = '';
+const TEACHER_EMAIL = 'ke-inuzuka@ai.singularity.ed.jp';
+
+/* 所属プロジェクトの選択肢 */
+const PROJECTS = ['横川商店街', 'ひろしま探究', '安浦コモンズ', 'STEAM', 'まだ決めていない'];
+
+/* =========================================================
+   申請の種類（ここに足せば、種類を増やせます）
+   ========================================================= */
+const TYPES = {
+  ai: {
+    icon: '🤖',
+    title: 'AIの有料プランを使いたい',
+    sub: 'ChatGPT・Claudeなど、お金がかかるAIの代金を学校に出してもらう',
+    pages: [
+      { name: '使いたいAI', heading: 'どのAIを使いたい？', lead: 'サービスの名前と、1か月の値段を書こう。', fields: [
+        { id: 'ai_service', label: '使いたいAIの名前', type: 'choice', required: true, other: true,
+          options: ['ChatGPT', 'Claude', 'Gemini', 'Perplexity', 'Canva'],
+          hint: 'あてはまるものを押そう。ないときは「そのほか」を押して書こう。' },
+        { id: 'ai_plan', label: 'プランの名前', type: 'text', required: false,
+          placeholder: '例：Plus、Pro など', hint: '分からなければ空でOK。' },
+        { id: 'ai_monthly', label: '1か月の値段', type: 'number', required: true, suffix: '円 / 月',
+          placeholder: '3000', hint: '公式サイトの値段を見て書こう。税こみの値段で。' },
+        { id: 'ai_months', label: '何か月 使いたい？', type: 'choice', required: true, other: true, otherLabel: '月数を書く',
+          options: ['1か月', '3か月', '6か月'] },
+        { id: 'ai_total', type: 'total' }
+      ]},
+      { name: 'やりたいこと', heading: 'AIで何をする？', lead: 'たくさん書かなくてOK。1〜3文で大丈夫。', voice: true, fields: [
+        { id: 'title', label: '企画の名前（タイトル）', type: 'text', required: true,
+          placeholder: '例：横川商店街のお店紹介動画づくり',
+          example: '横川商店街のお店紹介動画づくり' },
+        { id: 'ai_what', label: 'AIを使って何をする？', type: 'textarea', required: true, min: 30,
+          starters: ['〜のために、', '〜を作ります。', '〜を調べます。'],
+          example: '横川商店街のお店の人にインタビューして、その内容をもとにお店紹介の動画の台本とチラシを作ります。インタビューの文字起こしや、台本の下書きにAIを使います。' },
+        { id: 'ai_why', label: 'なぜ無料のプランではダメ？', type: 'textarea', required: true, min: 20,
+          starters: ['無料だと回数が足りない', '長い文章や資料を読みこめない', '画像や動画が作れない'],
+          example: '無料プランだと1日に使える回数が少なく、インタビュー10人分の文字起こしと台本づくりが終わらないからです。' }
+      ]},
+      { name: 'どうなる？', heading: '使うと、どうなる？', lead: '誰の役に立つか、どうやって見せるかを書こう。', voice: true, fields: [
+        { id: 'goal', label: '使うと、どんな成果が出る？だれの役に立つ？', type: 'textarea', required: true, min: 20,
+          example: '10店分の紹介動画ができて、商店街のSNSで使ってもらえます。お店の人と、横川に来る人の役に立ちます。' },
+        { id: 'report', label: '成果をどうやって見せる？（いくつ選んでもOK）', type: 'multi', required: true, other: true,
+          options: ['月に1回、先生に報告する', '発表会で発表する', '作ったものを提出する', 'ポートフォリオにまとめる'] }
+      ]}
+    ]
+  },
+  budget: {
+    icon: '💴',
+    title: '活動のお金（予算）を出してほしい',
+    sub: '材料・道具・交通費・イベントの費用などを学校に出してもらう',
+    pages: [
+      { name: '何に使う？', heading: '何にお金を使う？', lead: 'まずは企画の名前と、いつ使うかを書こう。', fields: [
+        { id: 'title', label: '企画の名前（タイトル）', type: 'text', required: true,
+          placeholder: '例：ゾンビナイト子どもワークショップ', example: 'ゾンビナイト子どもワークショップの材料' },
+        { id: 'use_kind', label: 'お金の使いみち（いくつ選んでもOK）', type: 'multi', required: true, other: true,
+          options: ['材料・消耗品', '道具・機材', '交通費', '会場・参加費', '印刷・チラシ'] },
+        { id: 'need_date', label: 'いつまでに必要？', type: 'date', required: true,
+          hint: '買う日、または使う日。早めに出すほど通りやすいよ。' }
+      ]},
+      { name: '買うもの', heading: '何を、いくつ買う？', lead: '1行に1つずつ書こう。合計は自動で計算されます。', fields: [
+        { id: 'items', label: '買うもの・かかるお金', type: 'items', required: true },
+        { id: 'shop', label: '買うお店や、ネットのページ（分かれば）', type: 'text', required: false,
+          placeholder: '例：ダイソー横川店 / AmazonのURL' }
+      ]},
+      { name: 'なぜ・どうなる', heading: 'なぜ必要？使うとどうなる？', lead: '1〜3文で大丈夫。', voice: true, fields: [
+        { id: 'why', label: 'なぜ、このお金が必要？', type: 'textarea', required: true, min: 20,
+          starters: ['〜をするために必要です。', 'これがないと〜できません。'],
+          example: '子ども向けワークショップで使うチョークと画用紙が、40人分必要です。学校にある分では足りません。' },
+        { id: 'goal', label: '使うと、どんな成果が出る？だれの役に立つ？', type: 'textarea', required: true, min: 20,
+          example: 'イベントに来た子ども40人がワークショップに参加できます。商店街のイベントをもり上げる役に立ちます。' },
+        { id: 'report', label: '成果をどうやって見せる？（いくつ選んでもOK）', type: 'multi', required: true, other: true,
+          options: ['写真を先生に送る', 'レシートを出す', '発表会で発表する', '作ったものを提出する'] }
+      ]}
+    ]
+  }
+};
+
+/* 全員に共通のページ */
+const PROFILE_PAGE = { name: 'あなたのこと', heading: 'あなたのことを教えてね', lead: '先生から返事をするために使います。', fields: [
+  { id: 'name', label: 'あなたの名前', type: 'text', required: true, placeholder: '例：山田 花子' },
+  { id: 'grade', label: '学年', type: 'choice', required: true, options: ['1年', '2年', '3年'] },
+  { id: 'project', label: '入っているプロジェクト', type: 'choice', required: true, options: PROJECTS },
+  { id: 'email', label: 'あなたの学校のメールアドレス', type: 'email', required: true,
+    placeholder: 'xxxx@…', hint: '先生からの返事と、受付の確認メールがここに届きます。' },
+  { id: 'members', label: 'いっしょにやる人（いれば）', type: 'text', required: false, placeholder: '例：佐藤さん、田中さん' }
+]};
+const LAST_PAGE = { name: 'やくそく', heading: '最後に、やくそくの確認', lead: '読んで、チェックを入れてね。', fields: [
+  { id: 'note', label: '先生へのひとこと（あれば）', type: 'textarea', required: false, min: 0,
+    placeholder: '例：急いでいます／相談したいことがあります' },
+  { id: 'promise', type: 'checks', required: true, items: [
+    '書いた内容は、本当のことです',
+    'OKが出る前に、自分でお金を払って買ったり、申しこんだりしません',
+    'OKが出たら、成果をきちんと先生に見せます'
+  ]}
+]};
+
+/* ========================================================= */
+const STORE_KEY = 'sb-shinsei-draft-v1';
+let state = { type: null, page: 0, data: {} };
+try { const s = JSON.parse(localStorage.getItem(STORE_KEY)); if (s && s.data) state = s; } catch (e) {}
+try { if (localStorage.getItem('sb-big') === '1') document.documentElement.classList.add('big'); } catch (e) {}
+
+const $ = (s, el = document) => el.querySelector(s);
+const main = $('#main');
+const yen = n => '¥' + Math.round(n || 0).toLocaleString('ja-JP');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function pages() {
+  if (!state.type) return [];
+  return [PROFILE_PAGE, ...TYPES[state.type].pages, LAST_PAGE, { name: 'かくにん', review: true }];
+}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+/* ---------- 読み上げ ---------- */
+function speak(text, btn) {
+  if (!('speechSynthesis' in window)) { alert('この端末では読み上げが使えません'); return; }
+  const was = btn && btn.classList.contains('on');
+  speechSynthesis.cancel();
+  document.querySelectorAll('.speak.on').forEach(b => b.classList.remove('on'));
+  if (was) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP'; u.rate = 0.95;
+  if (btn) { btn.classList.add('on'); u.onend = () => btn.classList.remove('on'); }
+  speechSynthesis.speak(u);
+}
+
+/* ---------- 金額 ---------- */
+function monthsValue() {
+  const v = state.data.ai_months;
+  if (!v) return 0;
+  if (v === '__other') return parseInt(String(state.data.ai_months_other || '').replace(/[^0-9]/g, '')) || 0;
+  return parseInt(v) || 0;
+}
+function totalAmount() {
+  if (state.type === 'ai') return (Number(state.data.ai_monthly) || 0) * monthsValue();
+  if (state.type === 'budget') return (state.data.items || []).reduce((s, it) => s + (Number(it.qty) || 0) * (Number(it.price) || 0), 0);
+  return 0;
+}
+
+/* ---------- 画面：はじめ ---------- */
+function renderStart() {
+  $('#progress').hidden = true; $('#nav').hidden = true;
+  const draft = state.type && Object.keys(state.data).length > 0;
+  main.innerHTML = `
+  <section class="screen">
+    <h1>学校に、なにをお願いしたい？</h1>
+    <p class="lead">あてはまるものを1つ押してね。質問にこたえていくだけで、企画書ができあがります。</p>
+    ${draft ? `<div class="alert" style="border-color:var(--blue);background:#eef6ff">
+      <b>書きかけの申請があります</b>（${esc(TYPES[state.type].title)}）
+      <div class="row"><button class="btn next" id="resume" type="button">つづきから書く</button>
+      <button class="btn back" id="discard" type="button">消して はじめから</button></div></div>` : ''}
+    <div class="type-grid" style="margin-top:14px">
+      ${Object.entries(TYPES).map(([k, t]) => `
+        <button class="type-card" data-type="${k}" type="button">
+          <span class="type-icon" aria-hidden="true">${t.icon}</span>
+          <span><b>${esc(t.title)}</b><span>${esc(t.sub)}</span></span>
+          <span class="go" aria-hidden="true">›</span>
+        </button>`).join('')}
+    </div>
+    <div class="how">
+      <h2>送ったあとの流れ</h2>
+      <div class="flow">
+        <div><i>✍️</i>質問に<br>こたえる</div>
+        <div><i>📨</i>犬塚先生に<br>とどく</div>
+        <div><i>🏫</i>学校（法人本部）<br>が決める</div>
+        <div><i>✅</i>先生から<br>返事が来る</div>
+      </div>
+    </div>
+  </section>`;
+  main.querySelectorAll('.type-card').forEach(b => b.onclick = () => {
+    if (state.type && state.type !== b.dataset.type && Object.keys(state.data).length &&
+        !confirm('書きかけの申請は消えます。よいですか？')) return;
+    if (state.type !== b.dataset.type) state.data = keepProfile(state.data);
+    state.type = b.dataset.type; state.page = 0; save(); render(); scrollTo(0, 0);
+  });
+  const r = $('#resume'); if (r) r.onclick = () => { render(); scrollTo(0, 0); };
+  const d = $('#discard'); if (d) d.onclick = () => { state = { type: null, page: 0, data: keepProfile(state.data) }; save(); renderStart(); };
+}
+function keepProfile(d) {
+  const o = {}; ['name', 'grade', 'project', 'email'].forEach(k => { if (d[k]) o[k] = d[k]; }); return o;
+}
+
+/* ---------- 質問ページ ---------- */
+function render() {
+  if (!state.type) return renderStart();
+  const ps = pages(); const p = ps[state.page];
+  $('#progress').hidden = false; $('#nav').hidden = false;
+  $('#steps').innerHTML = ps.map((_, i) => `<li class="${i < state.page ? 'is-done' : i === state.page ? 'is-now' : ''}"></li>`).join('');
+  $('#stepName').textContent = p.name;
+  $('#stepCount').textContent = `${state.page + 1} / ${ps.length}`;
+  $('#backBtn').textContent = '← もどる';
+  const nb = $('#nextBtn');
+  nb.className = 'btn ' + (p.review ? 'send' : 'next');
+  nb.textContent = p.review ? '📨 先生に送る' : (state.page === ps.length - 2 ? 'かくにんへ →' : 'つぎへ →');
+  nb.disabled = false;
+
+  if (p.review) return renderReview();
+
+  main.innerHTML = `<section class="screen">
+    <h1>${esc(p.heading)}</h1><p class="lead">${esc(p.lead || '')}</p>
+    ${p.voice ? `<div class="voice-tip"><span style="font-size:1.4rem">🎤</span><span>文字を打つのが大変なら、スマホのキーボードの<b>マイク</b>を押して、話して入力してもOK！</span></div>` : ''}
+    ${p.fields.map(fieldHTML).join('')}
+  </section>`;
+  bindFields(p);
+}
+
+function fieldHTML(f) {
+  const d = state.data;
+  if (f.type === 'total') {
+    return `<div class="total" id="aiTotal"><span>出してほしい合計</span><b>${yen(totalAmount())}</b></div>`;
+  }
+  const badge = f.required ? '<span class="badge req">必ず</span>' : '<span class="badge opt">なくてもOK</span>';
+  const readText = [f.label, f.hint, f.example ? 'れい。' + f.example : ''].filter(Boolean).join('。');
+  let body = '';
+  switch (f.type) {
+    case 'text': case 'email': case 'date':
+      body = `<input type="${f.type}" id="f_${f.id}" value="${esc(d[f.id] || '')}" placeholder="${esc(f.placeholder || '')}"
+               ${f.type === 'email' ? 'inputmode="email" autocomplete="email"' : ''} ${f.id === 'name' ? 'autocomplete="name"' : ''}>`;
+      break;
+    case 'number':
+      body = `<div class="with-suffix"><input type="number" inputmode="numeric" min="0" id="f_${f.id}" value="${esc(d[f.id] || '')}" placeholder="${esc(f.placeholder || '')}"><span>${esc(f.suffix || '')}</span></div>`;
+      break;
+    case 'textarea':
+      body = `${f.starters ? `<div class="starters">${f.starters.map(s => `<button type="button" class="starter" data-for="${f.id}">${esc(s)}</button>`).join('')}</div>` : ''}
+        <textarea id="f_${f.id}" placeholder="${esc(f.placeholder || 'ここに書こう')}">${esc(d[f.id] || '')}</textarea>
+        ${f.min ? `<div class="counter" id="c_${f.id}"></div>` : ''}`;
+      break;
+    case 'choice': case 'multi': {
+      const val = d[f.id];
+      const on = o => f.type === 'multi' ? (val || []).includes(o) : val === o;
+      body = `<div class="choices" role="group">
+        ${f.options.map(o => `<button type="button" class="choice" data-f="${f.id}" data-v="${esc(o)}" aria-pressed="${on(o)}">${esc(o)}</button>`).join('')}
+        ${f.other ? `<button type="button" class="choice" data-f="${f.id}" data-v="__other" aria-pressed="${on('__other')}">${esc(f.otherLabel || 'そのほか')}</button>` : ''}
+      </div>
+      ${f.other ? `<div class="other-input" id="o_${f.id}" ${on('__other') ? '' : 'hidden'}><input type="text" id="f_${f.id}_other" value="${esc(d[f.id + '_other'] || '')}" placeholder="${f.id === 'ai_months' ? '例：12か月' : 'ここに書こう'}"></div>` : ''}`;
+      break;
+    }
+    case 'items': {
+      if (!d.items || !d.items.length) d.items = [{ name: '', qty: 1, price: '' }];
+      body = `<div class="items" id="itemsBox"></div>
+        <button type="button" class="add" id="addItem">＋ 行をふやす</button>
+        <div class="total"><span>合計</span><b id="itemsTotal">${yen(totalAmount())}</b></div>`;
+      break;
+    }
+    case 'checks':
+      return `<div class="q" data-q="${f.id}">
+        ${f.items.map((t, i) => `<label class="check ${(d.promise || [])[i] ? 'on' : ''}"><input type="checkbox" data-i="${i}" ${(d.promise || [])[i] ? 'checked' : ''}><span>${esc(t)}</span></label>`).join('')}
+        <p class="err-msg">↑ ぜんぶにチェックを入れてね</p></div>`;
+  }
+  return `<div class="q" data-q="${f.id}">
+    <div class="q-head"><div class="q-title">${esc(f.label)}${badge}</div>
+      <button type="button" class="speak" aria-label="読み上げ" data-read="${esc(readText)}">🔊</button></div>
+    ${f.hint ? `<p class="hint">${esc(f.hint)}</p>` : ''}
+    ${f.example ? `<button type="button" class="ex-btn" data-ex="${f.id}">💡 書き方の例を見る</button>
+      <div class="example" id="ex_${f.id}"><b>例：</b>${esc(f.example)}<br><button type="button" class="use" data-use="${f.id}">この例をもとに書く</button></div>` : ''}
+    ${body}
+    <p class="err-msg">↑ ここを${f.type === 'choice' || f.type === 'multi' ? '選んで' : '書いて'}ね${f.min ? `（${f.min}文字くらい）` : ''}</p>
+  </div>`;
+}
+
+function bindFields(p) {
+  const d = state.data;
+  main.querySelectorAll('.speak').forEach(b => b.onclick = () => speak(b.dataset.read, b));
+  main.querySelectorAll('.ex-btn').forEach(b => b.onclick = () => $('#ex_' + b.dataset.ex).classList.toggle('show'));
+  main.querySelectorAll('.use').forEach(b => b.onclick = () => {
+    const f = findField(b.dataset.use); const t = $('#f_' + f.id);
+    if (t.value && !confirm('いま書いてある文を、例に置きかえますか？')) return;
+    t.value = f.example; t.dispatchEvent(new Event('input')); t.focus();
+  });
+  main.querySelectorAll('.starter').forEach(b => b.onclick = () => {
+    const t = $('#f_' + b.dataset.for);
+    t.value = (t.value ? t.value + (/[。、\n]$/.test(t.value) ? '' : '、') : '') + b.textContent;
+    t.dispatchEvent(new Event('input')); t.focus(); t.setSelectionRange(t.value.length, t.value.length);
+  });
+  p.fields.forEach(f => {
+    const el = $('#f_' + f.id);
+    if (el && ['text', 'email', 'date', 'number', 'textarea'].includes(f.type)) {
+      const upd = () => { d[f.id] = el.value; clearErr(f.id); if (f.min) counter(f); updTotals(); save(); };
+      el.addEventListener('input', upd); el.addEventListener('change', upd);
+      if (f.min) counter(f);
+    }
+    const oe = $('#f_' + f.id + '_other');
+    if (oe) oe.addEventListener('input', () => { d[f.id + '_other'] = oe.value; clearErr(f.id); updTotals(); save(); });
+  });
+  main.querySelectorAll('.choice').forEach(b => b.onclick = () => {
+    const f = findField(b.dataset.f); const v = b.dataset.v;
+    if (f.type === 'multi') {
+      const arr = new Set(d[f.id] || []); arr.has(v) ? arr.delete(v) : arr.add(v); d[f.id] = [...arr];
+      b.setAttribute('aria-pressed', arr.has(v));
+    } else {
+      d[f.id] = v;
+      main.querySelectorAll(`.choice[data-f="${f.id}"]`).forEach(x => x.setAttribute('aria-pressed', x.dataset.v === v));
+    }
+    const box = $('#o_' + f.id);
+    if (box) { const show = f.type === 'multi' ? d[f.id].includes('__other') : v === '__other'; box.hidden = !show; if (show) $('input', box).focus(); }
+    clearErr(f.id); updTotals(); save();
+  });
+  main.querySelectorAll('.check input').forEach(c => c.onchange = () => {
+    d.promise = d.promise || []; d.promise[c.dataset.i] = c.checked;
+    c.closest('.check').classList.toggle('on', c.checked); clearErr('promise'); save();
+  });
+  if ($('#itemsBox')) drawItems();
+}
+
+function drawItems() {
+  const d = state.data; const box = $('#itemsBox');
+  box.innerHTML = d.items.map((it, i) => `
+    <div class="item">
+      <div class="name"><label>品名・内容</label><input type="text" data-i="${i}" data-k="name" value="${esc(it.name)}" placeholder="例：画用紙 / バス代"></div>
+      <div><label>数</label><input type="number" inputmode="numeric" min="0" data-i="${i}" data-k="qty" value="${esc(it.qty)}"></div>
+      <div><label>1つの値段（円）</label><input type="number" inputmode="numeric" min="0" data-i="${i}" data-k="price" value="${esc(it.price)}" placeholder="500"></div>
+      <button type="button" class="del" data-del="${i}" aria-label="この行を消す" ${d.items.length < 2 ? 'disabled style="opacity:.3"' : ''}>✕</button>
+    </div>`).join('');
+  box.querySelectorAll('input').forEach(inp => inp.oninput = () => { d.items[inp.dataset.i][inp.dataset.k] = inp.value; clearErr('items'); updTotals(); save(); });
+  box.querySelectorAll('[data-del]').forEach(b => b.onclick = () => { d.items.splice(b.dataset.del, 1); drawItems(); updTotals(); save(); });
+  $('#addItem').onclick = () => { d.items.push({ name: '', qty: 1, price: '' }); drawItems(); save(); box.querySelectorAll('.name input')[d.items.length - 1].focus(); };
+}
+
+function updTotals() {
+  const a = $('#aiTotal b'); if (a) a.textContent = yen(totalAmount());
+  const b = $('#itemsTotal'); if (b) b.textContent = yen(totalAmount());
+}
+function counter(f) {
+  const n = (state.data[f.id] || '').trim().length; const c = $('#c_' + f.id); if (!c) return;
+  c.textContent = n >= f.min ? `✓ ${n}文字 いい感じ！` : `${n}文字（${f.min}文字くらい書けるとOK）`;
+  c.classList.toggle('ok', n >= f.min);
+}
+function findField(id) { for (const p of pages()) for (const f of (p.fields || [])) if (f.id === id) return f; }
+function clearErr(id) { const q = main.querySelector(`.q[data-q="${id}"]`); if (q) q.classList.remove('err'); }
+
+/* ---------- チェック ---------- */
+function isFilled(f) {
+  const v = state.data[f.id];
+  switch (f.type) {
+    case 'total': return true;
+    case 'choice': return !!v && (v !== '__other' || !!(state.data[f.id + '_other'] || '').trim());
+    case 'multi': return Array.isArray(v) && v.length > 0 && (!v.includes('__other') || !!(state.data[f.id + '_other'] || '').trim());
+    case 'items': return (v || []).some(it => (it.name || '').trim() && Number(it.price) > 0 && Number(it.qty) > 0);
+    case 'checks': return f.items.every((_, i) => (state.data.promise || [])[i]);
+    case 'email': return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
+    case 'number': return Number(v) > 0;
+    case 'textarea': return (v || '').trim().length >= Math.max(1, Math.floor((f.min || 1) / 2));
+    default: return !!(v || '').trim();
+  }
+}
+function validate(p) {
+  let first = null;
+  p.fields.forEach(f => {
+    if (!f.required) return;
+    if (!isFilled(f)) { const q = main.querySelector(`.q[data-q="${f.id}"]`); if (q) { q.classList.add('err'); first = first || q; } }
+  });
+  if (first) { first.scrollIntoView({ behavior: 'smooth', block: 'center' }); return false; }
+  return true;
+}
+
+/* ---------- 表示用の値 ---------- */
+function show(f) {
+  const d = state.data; const v = d[f.id];
+  const other = d[f.id + '_other'];
+  if (f.type === 'choice') return v === '__other' ? other : v;
+  if (f.type === 'multi') return (v || []).map(x => x === '__other' ? other : x).filter(Boolean).join('、');
+  if (f.type === 'items') return (v || []).filter(it => (it.name || '').trim())
+    .map(it => `${it.name}　${it.qty}こ × ${yen(it.price)} ＝ ${yen((Number(it.qty) || 0) * (Number(it.price) || 0))}`).join('\n');
+  if (f.type === 'number') return v ? `${Number(v).toLocaleString('ja-JP')} ${f.suffix || ''}` : '';
+  if (f.type === 'date') return v ? new Date(v + 'T00:00').toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }) : '';
+  return v || '';
+}
+function buildSections() {
+  const ps = pages().filter(p => !p.review);
+  return ps.map((p, idx) => ({
+    title: p.name, page: idx,
+    rows: p.fields.filter(f => f.type !== 'checks' && f.type !== 'total')
+      .map(f => ({ label: f.label, value: show(f) }))
+      .filter(r => r.value)
+  })).filter(s => s.rows.length);
+}
+
+/* ---------- 確認ページ ---------- */
+function renderReview() {
+  const t = TYPES[state.type]; const secs = buildSections();
+  main.innerHTML = `<section class="screen">
+    <h1>この内容で送ってもいい？</h1>
+    <p class="lead">まちがいがあれば「なおす」を押してね。</p>
+    <div class="total" style="margin-bottom:14px"><span>${esc(t.icon)} ${esc(t.title)}<br><small style="font-weight:600">出してほしい合計</small></span><b>${yen(totalAmount())}</b></div>
+    ${secs.map(s => `<div class="review"><h3>${esc(s.title)}<button type="button" data-go="${s.page}">なおす</button></h3>
+      <dl>${s.rows.map(r => `<dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd>`).join('')}</dl></div>`).join('')}
+    <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div id="sendResult"></div>
+  </section>`;
+  main.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { state.page = +b.dataset.go; save(); render(); scrollTo(0, 0); });
+}
+
+function plainText() {
+  const t = TYPES[state.type];
+  return `【SB科 申請】${t.title}\n合計：${yen(totalAmount())}\n\n` +
+    buildSections().map(s => `■ ${s.title}\n` + s.rows.map(r => `・${r.label}\n${r.value}`).join('\n')).join('\n\n');
+}
+
+async function send() {
+  if ($('#hp') && $('#hp').value) return;
+  const btn = $('#nextBtn'); btn.disabled = true; btn.textContent = '送っています…';
+  const d = state.data; const t = TYPES[state.type];
+  const payload = {
+    type: state.type, typeLabel: t.title, total: totalAmount(),
+    name: d.name, grade: d.grade, project: d.project, email: (d.email || '').trim(), title: d.title || '',
+    sections: buildSections().map(s => ({ title: s.title, rows: s.rows })),
+    text: plainText(), userAgent: navigator.userAgent
+  };
+  if (!GAS_URL) {
+    return sendFail('まだ送信の準備ができていません（先生がURLを設定中です）。');
+  }
+  try {
+    const res = await fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+    const j = await res.json();
+    if (!j.ok) throw new Error(j.error || 'error');
+    renderDone(j.id);
+  } catch (e) {
+    sendFail('うまく送れませんでした。インターネットにつながっているか確認して、もう一度押してね。');
+  }
+}
+function sendFail(msg) {
+  const btn = $('#nextBtn'); btn.disabled = false; btn.textContent = '📨 もう一度送る';
+  const subject = encodeURIComponent(`【SB科 申請】${TYPES[state.type].title}｜${state.data.name || ''}`);
+  const body = encodeURIComponent(plainText());
+  $('#sendResult').innerHTML = `<div class="alert"><b>⚠️ ${esc(msg)}</b>
+    <p style="font-size:.9em;margin-top:6px">何回やってもダメなときは、下のボタンでメールアプリから先生に送れます。</p>
+    <div class="row">
+      <a class="link-btn" href="mailto:${TEACHER_EMAIL}?subject=${subject}&body=${body}">✉️ メールアプリで送る</a>
+      <button class="link-btn" type="button" id="copyBtn" style="border:none">📋 内容をコピー</button>
+    </div></div>`;
+  $('#copyBtn').onclick = async () => {
+    try { await navigator.clipboard.writeText(plainText()); $('#copyBtn').textContent = '✓ コピーしました'; } catch (e) { alert('コピーできませんでした'); }
+  };
+  $('#sendResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function renderDone(id) {
+  const email = state.data.email;
+  state = { type: null, page: 0, data: keepProfile(state.data) }; save();
+  $('#progress').hidden = true; $('#nav').hidden = true;
+  main.innerHTML = `<section class="screen done">
+    <div class="big-icon">🎉</div>
+    <h1>送れました！</h1>
+    <p class="lead">受付番号：<b>${esc(id || '')}</b></p>
+    <ol>
+      <li>犬塚先生に、あなたの企画書がとどきました。</li>
+      <li>${esc(email)} に、受付の確認メールが行きます。</li>
+      <li>先生が読んで、学校（法人本部）に相談します。足りないところがあれば、先生から連絡します。</li>
+      <li><b>OKが出るまで、お金は払わないでね。</b></li>
+    </ol>
+    <a class="link-btn" href="./">別のお願いを書く</a>　<a class="link-btn" href="../">SB PORTALにもどる</a>
+  </section>`;
+  scrollTo(0, 0);
+}
+
+/* ---------- ボタン ---------- */
+$('#nextBtn').onclick = () => {
+  const ps = pages(); const p = ps[state.page];
+  if (p.review) return send();
+  if (!validate(p)) return;
+  speechSynthesis && speechSynthesis.cancel();
+  state.page++; save(); render(); scrollTo(0, 0);
+};
+$('#backBtn').onclick = () => {
+  speechSynthesis && speechSynthesis.cancel();
+  if (state.page === 0) { renderStart(); scrollTo(0, 0); return; }
+  state.page--; save(); render(); scrollTo(0, 0);
+};
+const bigBtn = $('#bigBtn');
+bigBtn.setAttribute('aria-pressed', document.documentElement.classList.contains('big'));
+bigBtn.onclick = () => {
+  const on = document.documentElement.classList.toggle('big');
+  bigBtn.setAttribute('aria-pressed', on);
+  try { localStorage.setItem('sb-big', on ? '1' : '0'); } catch (e) {}
+};
+
+renderStart();
+</script>
+</body>
+</html>
