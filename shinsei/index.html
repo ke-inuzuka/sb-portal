@@ -270,15 +270,13 @@ const PROFILE_PAGE = { name: '申請者情報', heading: '申請者情報', lead
     placeholder: 'xxxx@…', hint: '受付確認メールと担当教員からの連絡がこのアドレスに届きます。' },
   { id: 'members', label: '共同で取り組むメンバー', type: 'text', required: false, placeholder: '例：佐藤さん、田中さん' }
 ]};
-const LAST_PAGE = { name: '確認事項', heading: '確認事項', lead: '以下の内容を確認し、すべてにチェックを入れてください。', fields: [
-  { id: 'note', label: '担当教員への連絡事項', type: 'textarea', required: false, min: 0,
-    placeholder: '例：至急の対応を希望します／事前に相談したい点があります' },
-  { id: 'promise', type: 'checks', required: true, items: [
-    '記入した内容に誤りはありません',
-    '承認される前に、購入・支払い・申し込みを行いません',
-    '承認後は、記入した方法で成果を報告します'
-  ]}
-]};
+const NOTE_FIELD = { id: 'note', label: '担当教員への連絡事項', type: 'textarea', required: false, min: 0,
+  placeholder: '例：至急の対応を希望します／事前に相談したい点があります' };
+const PROMISES = [
+  '記入した内容に誤りはありません',
+  '承認される前に、購入・支払い・申し込みを行いません',
+  '承認後は、記入した方法で成果を報告します'
+];
 
 /* ========================================================= */
 const STORE_KEY = 'sb-shinsei-draft-v1';
@@ -292,7 +290,9 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 
 function pages() {
   if (!state.type) return [];
-  return [PROFILE_PAGE, ...TYPES[state.type].pages, LAST_PAGE, { name: '確認', review: true }];
+  const tp = TYPES[state.type].pages;
+  const last = { ...tp[tp.length - 1], fields: [...tp[tp.length - 1].fields, NOTE_FIELD] };
+  return [PROFILE_PAGE, ...tp.slice(0, -1), last, { name: '確認', review: true }];
 }
 function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
 
@@ -376,7 +376,7 @@ function render() {
   $('#backBtn').textContent = '← 戻る';
   const nb = $('#nextBtn');
   nb.className = 'btn ' + (p.review ? 'send' : 'next');
-  nb.textContent = p.review ? '📨 送信する' : (state.page === ps.length - 2 ? '確認へ →' : '次へ →');
+  nb.textContent = p.review ? '📨 送信する' : (state.page === ps.length - 2 ? '入力内容の確認へ →' : '次へ →');
   nb.disabled = false;
 
   if (p.review) return renderReview();
@@ -565,14 +565,24 @@ function renderReview() {
   const t = TYPES[state.type]; const secs = buildSections();
   main.innerHTML = `<section class="screen">
     <h1>入力内容の確認</h1>
-    <p class="lead">修正が必要な場合は「修正」を押してください。</p>
+    <p class="lead">内容を確認し、ページ下の確認事項にチェックを入れて送信してください。修正が必要な場合は「修正」を押してください。</p>
     <div class="total" style="margin-bottom:14px"><span>${esc(t.icon)} ${esc(t.title)}<br><small style="font-weight:600">申請金額（合計）</small></span><b>${yen(totalAmount())}</b></div>
     ${secs.map(s => `<div class="review"><h3>${esc(s.title)}<button type="button" data-go="${s.page}">修正</button></h3>
       <dl>${s.rows.map(r => `<dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd>`).join('')}</dl></div>`).join('')}
+    <div class="q" data-q="promise">
+      <div class="q-title">確認事項<span class="badge req">必須</span></div>
+      <p class="hint">上の内容を確認し、すべてにチェックを入れてから送信してください。</p>
+      ${PROMISES.map((t, i) => `<label class="check ${(state.data.promise || [])[i] ? 'on' : ''}"><input type="checkbox" data-i="${i}" ${(state.data.promise || [])[i] ? 'checked' : ''}><span>${esc(t)}</span></label>`).join('')}
+      <p class="err-msg">↑ すべての項目にチェックを入れてください</p>
+    </div>
     <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div id="sendResult"></div>
   </section>`;
   main.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { state.page = +b.dataset.go; save(); render(); scrollTo(0, 0); });
+  main.querySelectorAll('.check input').forEach(c => c.onchange = () => {
+    state.data.promise = state.data.promise || []; state.data.promise[c.dataset.i] = c.checked;
+    c.closest('.check').classList.toggle('on', c.checked); clearErr('promise'); save();
+  });
 }
 
 function plainText() {
@@ -583,13 +593,17 @@ function plainText() {
 
 async function send() {
   if ($('#hp') && $('#hp').value) return;
+  if (!PROMISES.every((_, i) => (state.data.promise || [])[i])) {
+    const q = main.querySelector('.q[data-q="promise"]'); q.classList.add('err');
+    q.scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
+  }
   const btn = $('#nextBtn'); btn.disabled = true; btn.textContent = '送信中…';
   const d = state.data; const t = TYPES[state.type];
   const payload = {
     type: state.type, typeLabel: t.title, total: totalAmount(),
     name: d.name, grade: d.grade, project: d.project, email: (d.email || '').trim(), title: d.title || '',
     sections: buildSections().map(s => ({ title: s.title, rows: s.rows })),
-    text: plainText(), userAgent: navigator.userAgent
+    promises: PROMISES, text: plainText(), userAgent: navigator.userAgent
   };
   if (!GAS_URL) {
     return sendFail('現在、送信機能の準備中です。');
