@@ -14,7 +14,6 @@
   --green:#1f9270; --orange:#ef664e; --yellow:#fff6d6;
   --r:16px; --fs:17px;
 }
-html.big{ --fs:20px; }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:"Noto Sans JP","Yu Gothic UI","Hiragino Sans","Meiryo",system-ui,sans-serif;
@@ -34,9 +33,6 @@ a{color:inherit}
   border-radius:13px 13px 13px 4px;font-weight:900;font-size:.85rem;letter-spacing:-.05em}
 .brand strong{display:block;font-size:.9rem;letter-spacing:.04em;line-height:1.2}
 .brand small{display:block;font-size:.7rem;color:#bdcbe0;line-height:1.2}
-.tools{display:flex;gap:8px}
-.tool{background:#ffffff14;border:1px solid #ffffff33;color:#fff;border-radius:999px;padding:6px 12px;font-size:.8rem;white-space:nowrap}
-.tool[aria-pressed="true"]{background:#fff;color:var(--navy)}
 
 /* 進み具合 */
 .progress{max-width:760px;margin:18px auto 0;padding:0 16px}
@@ -165,9 +161,6 @@ textarea{min-height:120px;resize:vertical;line-height:1.7}
     <span class="brand-sym">SB</span>
     <span><strong>SB PORTAL</strong><small>申請フォーム</small></span>
   </a>
-  <div class="tools">
-    <button class="tool" id="bigBtn" aria-pressed="false" type="button">文字を拡大</button>
-  </div>
 </header>
 
 <div class="progress" id="progress" hidden>
@@ -191,7 +184,7 @@ textarea{min-height:120px;resize:vertical;line-height:1.7}
    Apps Scriptを「ウェブアプリ」として公開したときのURLを
    下の '' の中に貼り付けてください。
    ========================================================= */
-const GAS_URL = '';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyhmcLcJDOtijtx43Uzgjo8B3BJu2HmQJKKA9idLd7zSJHLblaiqGly_K4bJ6alQtHjOw/exec';
 const TEACHER_EMAIL = 'ke-inuzuka@ai.singularity.ed.jp';
 
 /* 所属プロジェクトの選択肢 */
@@ -291,7 +284,6 @@ const LAST_PAGE = { name: '確認事項', heading: '確認事項', lead: '以下
 const STORE_KEY = 'sb-shinsei-draft-v1';
 let state = { type: null, page: 0, data: {} };
 try { const s = JSON.parse(localStorage.getItem(STORE_KEY)); if (s && s.data) state = s; } catch (e) {}
-try { if (localStorage.getItem('sb-big') === '1') document.documentElement.classList.add('big'); } catch (e) {}
 
 const $ = (s, el = document) => el.querySelector(s);
 const main = $('#main');
@@ -659,14 +651,6 @@ $('#backBtn').onclick = () => {
   if (state.page === 0) { renderStart(); scrollTo(0, 0); return; }
   state.page--; save(); render(); scrollTo(0, 0);
 };
-const bigBtn = $('#bigBtn');
-bigBtn.setAttribute('aria-pressed', document.documentElement.classList.contains('big'));
-bigBtn.onclick = () => {
-  const on = document.documentElement.classList.toggle('big');
-  bigBtn.setAttribute('aria-pressed', on);
-  try { localStorage.setItem('sb-big', on ? '1' : '0'); } catch (e) {}
-};
-
 renderStart();
 </script>
 </body>
