@@ -115,3 +115,7 @@
   .pj-chat svg{width:20px;height:20px}
   .pj-chat-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 }
+
+/* 「次の主なイベント」に載せるイベントがないときは、見出しの重なりをなくす */
+.featured-section:not(:has(.featured-card)) .featured-heading{display:none}
+.featured-section:not(:has(.featured-card)) .upcoming-events{margin-top:0}
