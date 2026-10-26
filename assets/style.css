@@ -119,3 +119,15 @@
 /* 「次の主なイベント」に載せるイベントがないときは、見出しの重なりをなくす */
 .featured-section:not(:has(.featured-card)) .featured-heading{display:none}
 .featured-section:not(:has(.featured-card)) .upcoming-events{margin-top:0}
+
+/* 中止のお知らせ */
+.cancel-notice{border-left-color:#c9432e}
+.cancel-notice h2{color:#b3261e}
+
+/* 後期の変更点：お知らせ欄の段落スタイルに上書きされないよう詳細度を上げる */
+.important-notice-copy .kouki-big{margin:2px 0 2px;color:#153a68;font-size:1.2rem;font-weight:950;line-height:1.35}
+.important-notice-copy .kouki-small{margin:0;color:#4b5f78;font-size:.88rem;font-weight:750}
+.important-notice-copy .kouki-deadline{display:inline-flex;align-items:center;gap:6px;margin:8px 0 0;padding:5px 11px;border-radius:999px;background:#fff0ec;color:#c9432e;font-size:.88rem;font-weight:850}
+.important-notice-copy .kouki-flow{display:flex;align-items:center;gap:8px;margin:8px 0 0;font-weight:900}
+.important-notice-copy .kouki-note{margin:12px 0 0;text-align:center;color:#153a68;font-size:.95rem;font-weight:900}
+@media (max-width:760px){.important-notice-copy .kouki-big{font-size:1.15rem}}
