@@ -138,3 +138,8 @@
 .featured-steps li::before{content:counter(st);grid-row:1/3;width:28px;height:28px;border-radius:50%;background:var(--event-accent);color:#fff;font-weight:950;display:grid;place-items:center;font-size:.9rem}
 .featured-steps b{color:#10233f;font-size:.98rem;font-weight:900;line-height:1.5}
 .featured-steps span{color:#4f6076;font-size:.86rem;font-weight:700;line-height:1.55}
+
+/* お知らせ欄の下に置く常設リンク（SB科全体チャット・年間スケジュール） */
+.important-links{flex-direction:row;flex-wrap:wrap;min-width:0;margin-top:12px}
+.important-links a{flex:0 1 240px}
+@media (max-width:760px){.important-links a{flex:1 1 200px}}
