@@ -168,8 +168,3 @@
   .iq-text b{font-size:.8rem}
   .iq-ext{display:none}
 }
-
-/* 同じ日の午前・午後を分けて表示 */
-.pj-part{flex-basis:100%;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:3px 8px}
-.pj-part+.pj-part{margin-top:6px;padding-top:6px;border-top:1px dashed #d5dfeb}
-.pj-ampm{flex:none;border:1.5px solid var(--c);color:var(--c);border-radius:6px;padding:0 6px;font-size:.72rem;font-weight:900;line-height:1.6}
