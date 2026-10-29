@@ -168,3 +168,5 @@
   .iq-text b{font-size:.8rem}
   .iq-ext{display:none}
 }
+
+.iq-joyn{border-color:#f6d3a3;background:#fff8ee}.iq-joyn:hover{border-color:#f29a2e}.iq-joyn .iq-icon{background:#f29a2e}.iq-joyn .iq-icon svg{width:22px;height:22px}@media (max-width:760px){.important-quick-links .iq-joyn{grid-column:1/-1}}
