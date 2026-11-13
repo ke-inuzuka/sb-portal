@@ -170,3 +170,12 @@
 }
 
 .iq-joyn{border-color:#f6d3a3;background:#fff8ee}.iq-joyn:hover{border-color:#f29a2e}.iq-joyn .iq-icon{background:#f29a2e}.iq-joyn .iq-icon svg{width:22px;height:22px}@media (max-width:760px){.important-quick-links .iq-joyn{grid-column:1/-1}}
+
+/* 変更・NEWのお知らせ */
+.update-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.update-list li{display:flex;align-items:flex-start;gap:10px;color:#10233f;font-size:.95rem;font-weight:800;line-height:1.55}
+.update-list b{font-weight:950}
+.update-badge{flex:none;min-width:48px;text-align:center;border-radius:6px;padding:1px 8px;font-size:.76rem;font-weight:950;letter-spacing:.04em;line-height:1.7;color:#fff}
+.update-badge.is-change{background:#d9480f}
+.update-badge.is-new{background:#1f63b8}
+@media (max-width:760px){.update-list li{font-size:.9rem}}
