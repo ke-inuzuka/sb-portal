@@ -206,3 +206,30 @@ html{scroll-behavior:smooth}
 @media (max-width:760px){#sec-events{scroll-margin-top:84px}}
 /* 背景帯(100vw)によるPCでの横スクロールを防ぐ */
 html,body{overflow-x:clip}
+/* 申込受付中のイベント：要点のみ表示し、詳細は折りたたみ */
+.upcoming-event-card h3{margin-top:8px}
+.upcoming-event-body{padding-bottom:12px}
+.upcoming-event-body .upcoming-event-facts{margin-top:12px}
+.event-more{border-top:1px solid #e3e9f1;margin:0 18px}
+.event-more>summary{list-style:none;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;color:var(--event-accent,#163a66);font-size:.9rem;font-weight:900}
+.event-more>summary::-webkit-details-marker{display:none}
+.event-more>summary:focus-visible{outline:3px solid #2d73db59;outline-offset:2px;border-radius:8px}
+.event-more-chev{transition:transform .2s}
+.event-more[open] .event-more-chev{transform:rotate(180deg)}
+.event-more-body{padding:2px 0 18px;display:grid;gap:12px}
+.event-more-body>p{color:#5f6f84;margin:0;font-size:.9rem;line-height:1.7}
+.event-more-body .event-more-tag{color:#6b7a8f;font-size:.76rem;font-weight:800}
+.event-more-body .upcoming-event-notes,.event-more-body .upcoming-event-facts{margin:0}
+@media (max-width:760px){
+  .upcoming-event-grid{gap:12px}
+  .upcoming-event-card{display:grid;grid-template-columns:38% minmax(0,1fr);align-items:stretch}
+  .upcoming-event-card .upcoming-event-image{aspect-ratio:auto;min-height:100%;grid-row:1;grid-column:1}
+  .upcoming-event-card .upcoming-event-body{grid-row:1;grid-column:2;padding:14px 12px 10px}
+  .upcoming-event-card .event-more{grid-column:1/-1;margin:0 14px}
+  .upcoming-event-card .upcoming-event-topline time{font-size:.82rem}
+  .upcoming-event-card h3{font-size:.98rem;line-height:1.4;margin-top:4px}
+  .upcoming-event-body .upcoming-event-facts{margin-top:8px;gap:4px;font-size:.78rem}
+  .upcoming-event-body .upcoming-event-facts svg{width:14px;height:14px}
+  .event-more>summary{min-height:42px;font-size:.84rem}
+}
+@media (prefers-reduced-motion:reduce){.event-more-chev{transition:none}}
