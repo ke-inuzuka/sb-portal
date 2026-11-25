@@ -235,3 +235,10 @@ html,body{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){.event-more-chev{transition:none}}
 /* PC：詳細を開いても隣のカードが伸びないようにする */
 .upcoming-event-grid{align-items:start}
+/* スマホ：画像の枠を16:9に固定し、切れないようにする */
+@media (max-width:760px){
+  .upcoming-event-card{grid-template-columns:42% minmax(0,1fr);align-items:start}
+  .upcoming-event-card .upcoming-event-image{aspect-ratio:16/9;min-height:0;align-self:start;margin:14px 0 0 12px;border-radius:10px}
+  .upcoming-event-card .upcoming-event-image img{transform:none}
+  .upcoming-event-card .upcoming-event-image:after{display:none}
+}
