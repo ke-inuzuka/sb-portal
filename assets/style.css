@@ -242,3 +242,12 @@ html,body{overflow-x:clip}
   .upcoming-event-card .upcoming-event-image img{transform:none}
   .upcoming-event-card .upcoming-event-image:after{display:none}
 }
+/* スマホ：画像を上に全幅（16:9）で表示し、文字は下に置く */
+@media (max-width:760px){
+  .upcoming-event-card{display:flex;flex-direction:column;align-items:stretch}
+  .upcoming-event-card .upcoming-event-image{align-self:stretch}
+  .upcoming-event-card .upcoming-event-image{aspect-ratio:16/9;width:100%;margin:0;border-radius:0;min-height:0}
+  .upcoming-event-card .upcoming-event-body{padding:12px 16px 8px}
+  .upcoming-event-card .event-more{margin:0 16px}
+  .upcoming-event-card h3{font-size:1.02rem}
+}
