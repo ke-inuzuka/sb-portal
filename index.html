@@ -40,4 +40,16 @@
   });
 })();
 </script>
-</body></html>
+<script id="event-equal-height">(function(){
+var mq=window.matchMedia('(min-width: 761px)');
+function fit(){
+  var bodies=[].slice.call(document.querySelectorAll('.upcoming-event-grid .upcoming-event-body'));
+  bodies.forEach(function(b){b.style.minHeight='';});
+  if(!mq.matches)return;
+  var max=0;bodies.forEach(function(b){max=Math.max(max,b.offsetHeight);});
+  bodies.forEach(function(b){b.style.minHeight=max+'px';});
+}
+var t;function later(){clearTimeout(t);t=setTimeout(fit,120);}
+fit();window.addEventListener('load',fit);window.addEventListener('resize',later);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+})();</script></body></html>
