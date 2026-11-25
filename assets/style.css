@@ -233,3 +233,5 @@ html,body{overflow-x:clip}
   .event-more>summary{min-height:42px;font-size:.84rem}
 }
 @media (prefers-reduced-motion:reduce){.event-more-chev{transition:none}}
+/* PC：詳細を開いても隣のカードが伸びないようにする */
+.upcoming-event-grid{align-items:start}
