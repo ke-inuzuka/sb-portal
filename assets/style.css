@@ -204,3 +204,5 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pj-chev{transition:none}}
 #sec-events{scroll-margin-top:96px}
 @media (max-width:760px){#sec-events{scroll-margin-top:84px}}
+/* 背景帯(100vw)によるPCでの横スクロールを防ぐ */
+html,body{overflow-x:clip}
