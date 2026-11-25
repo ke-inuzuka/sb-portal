@@ -179,3 +179,28 @@
 .update-badge.is-change{background:#d9480f}
 .update-badge.is-new{background:#1f63b8}
 @media (max-width:760px){.update-list li{font-size:.9rem}}
+/* ページ内メニュー */
+html{scroll-behavior:smooth}
+#sec-important,#sec-projects,#sec-events,#sec-schedule{scroll-margin-top:136px}
+.topbar nav.page-menu{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:2px}
+.page-menu a{display:flex;align-items:center;justify-content:center;min-height:38px;padding:4px 8px;border-radius:10px;background:#ffffff14;border:1px solid #ffffff2b;color:#fff;font-size:.86rem;font-weight:850;line-height:1.25;text-align:center;text-decoration:none}
+.page-menu a:hover,.page-menu a:focus-visible{background:#ffffff2e}
+.pm-br{display:none}
+@media (max-width:760px){
+  #sec-important,#sec-projects,#sec-events,#sec-schedule{scroll-margin-top:128px}
+  .topbar nav.page-menu{gap:5px;display:grid}
+  .page-menu a{min-height:40px;padding:3px 4px;font-size:.72rem;border-radius:9px}
+  .pm-br{display:inline}
+}
+.topbar nav.page-menu a:after{display:none}
+/* プロジェクト：見出しのみ表示し、タップで一覧 */
+.pj-fold>summary{list-style:none;cursor:pointer;user-select:none}
+.pj-fold>summary::-webkit-details-marker{display:none}
+.pj-fold>summary:focus-visible{outline:3px solid #2d73db59;outline-offset:-3px}
+.pj-chev{flex:none;width:22px;height:22px;color:var(--c);transition:transform .2s}
+.pj-fold[open] .pj-chev{transform:rotate(180deg)}
+.pj-fold-body{border-top:1px solid #e3e9f1}
+.pj-fold-body .pj-more-body{padding-top:0}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pj-chev{transition:none}}
+#sec-events{scroll-margin-top:96px}
+@media (max-width:760px){#sec-events{scroll-margin-top:84px}}
