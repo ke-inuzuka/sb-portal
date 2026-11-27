@@ -303,3 +303,20 @@ html.fb-picking .fb-root, html.fb-picking .fb-root *{cursor:auto}
 .fb-root [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){.fb-hl{transition:none}}
 html.fb-picking iframe{pointer-events:none}
+/* 授業名ラベル */
+.cls-badge{display:inline-flex;align-items:center;gap:5px;vertical-align:middle;margin:2px 6px 2px 0;padding:2px 9px 2px 3px;border-radius:999px;font-size:.74rem;font-weight:900;line-height:1.5;white-space:nowrap;color:var(--cb);background:color-mix(in srgb,var(--cb) 11%,#fff);border:1px solid color-mix(in srgb,var(--cb) 35%,#fff)}
+.cls-badge i{font-style:normal;font-size:.64rem;color:#fff;background:var(--cb);border-radius:999px;padding:0 6px}
+.cls-core{--cb:#0f766e}
+.cls-kiso{--cb:#4338ca}
+.cls-liberal{--cb:#a21caf}
+.cls-global{--cb:#c2410c}
+.cls-special{--cb:#8a5a00}
+.pj-list .cls-badge,.pj-next-row .cls-badge{display:flex;width:max-content;margin:4px 0 2px}
+.upcoming-event-topline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.upcoming-event-topline .cls-badge{margin:0}
+.cls-line{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;flex:0 0 100%;width:100%;margin:4px 0 2px}
+.cls-line .cls-badge,.cls-line .pj-tag{margin:0}
+.pj-list .cls-line .cls-badge,.pj-next-row .cls-line .cls-badge{display:inline-flex;width:auto}
+.upcoming-event-topline{justify-content:flex-start;text-align:left}
+.upcoming-event-card .upcoming-event-topline{flex-direction:row;align-items:center;justify-content:flex-start}
+.upcoming-event-topline .cls-badge{padding:2px 9px 2px 3px;overflow:visible}
