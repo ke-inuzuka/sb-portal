@@ -320,3 +320,4 @@ html.fb-picking iframe{pointer-events:none}
 .upcoming-event-topline{justify-content:flex-start;text-align:left}
 .upcoming-event-card .upcoming-event-topline{flex-direction:row;align-items:center;justify-content:flex-start}
 .upcoming-event-topline .cls-badge{padding:2px 9px 2px 3px;overflow:visible}
+.cls-badge,.upcoming-event-topline .cls-badge{padding:2px 10px}
